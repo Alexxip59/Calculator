@@ -2,15 +2,16 @@ import java.util.*;
 import java.util.regex.*;
 
 public class Calculator {
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Введите выражение из двух чисел от 1 до 10 или от i до x, оператор +, -, /, *: ");
         String input = scanner.nextLine();
 
-        String regexA = "\\b([1-9]|10)([-+*/])([1-9]|10)\\b";
+        String regexA = "^([1-9]|10)([-+*/])([1-9]|10)$";
         Pattern patternA = Pattern.compile(regexA);
 
-        String regexR = "\\b(i|ii|iii|iv|v|vi|vii|viii|ix|x)([-+*/])(i|ii|iii|iv|v|vi|vii|viii|ix|x)\\b";
+        String regexR = "^(i|ii|iii|iv|v|vi|vii|viii|ix|x)([-+*/])(i|ii|iii|iv|v|vi|vii|viii|ix|x)$";
         Pattern patternR = Pattern.compile(regexR);
 
         Matcher mA = patternA.matcher(input);
@@ -26,6 +27,10 @@ public class Calculator {
         //} else if (foundR) {
         //    matcher = mR;
         //}
+
+//        if (matcher != null && matcher.groupCount() > 3) {
+//            throw new InputMismatchException("Введено более 2-х операндов.");
+//        }
 
         if (foundA || foundR) {
             int firstOperand = getOperand(matcher.group(1));
@@ -67,7 +72,7 @@ public class Calculator {
         int result;
 
         try {
-           result = Integer.parseInt(opStr);
+            result = Integer.parseInt(opStr);
         } catch (NumberFormatException e) {
             result = switch (opStr) {
                 case "i" -> 1;
@@ -100,14 +105,19 @@ public class Calculator {
 
         String romanHundreds = romanDigit(number % 10, "C", "", "");
 
-        String result = "";
-        if (!romanHundreds.equals("0")) {
-            result = result + romanHundreds;
-        }
-        if (!romanTens.equals("0")) {
-            result = result + romanTens;
-        }
-        return result + romanOnes;
+//        String result = "";
+//        if (!romanHundreds.equals("0")) {
+//            result = result + romanHundreds;
+//        }
+//        if (!romanTens.equals("0")) {
+//            result = result + romanTens;
+//        }
+//        if (!romanOnes.equals("0")) {
+//            result = result + romanOnes;
+//        }
+//        return result;
+        return romanHundreds + romanTens + romanOnes;
+
     }
 
     static String romanDigit(int n, String one, String five, String ten) {
@@ -135,6 +145,6 @@ public class Calculator {
                     break ;
             }
         }
-        return "0";
+        return "";
     }
 }
